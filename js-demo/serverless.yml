@@ -1,0 +1,64 @@
+service: demo
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  iamRoleStatements:
+    - Effect: Allow
+      Action: dynamodb:*
+      Resource: arn:aws:dynamodb:*:*:table/users
+
+resources:
+  Resources:
+    DemoDynamoDbTable:
+      Type: AWS::DynamoDB::Table
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: users
+
+functions:
+  list-users:
+    handler: src/handler.listUsers
+    events:
+      - http:
+          path: users
+          method: get
+  get-user:
+    handler: src/handler.getUser
+    events:
+      - http:
+          path: users/{id}
+          method: get
+  create-user:
+    handler: src/handler.createUser
+    events:
+      - http:
+          path: users
+          method: post
+  update-user:
+    handler: src/handler.updateUser
+    events:
+      - http:
+          path: users/{id}
+          method: put
+  patch-user:
+    handler: src/handler.patchUser
+    events:
+      - http:
+          path: users/{id}
+          method: patch
+  delete-user:
+    handler: src/handler.deleteUser
+    events:
+      - http:
+          path: users/{id}
+          method: delete
