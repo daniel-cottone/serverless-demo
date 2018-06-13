@@ -1,4 +1,4 @@
-service: demo
+service: js-demo
 
 provider:
   name: aws
@@ -12,7 +12,6 @@ resources:
   Resources:
     DemoDynamoDbTable:
       Type: AWS::DynamoDB::Table
-      DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
           - AttributeName: id

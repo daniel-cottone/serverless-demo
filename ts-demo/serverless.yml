@@ -21,7 +21,6 @@ resources:
   Resources:
     DemoDynamoDbTable:
       Type: AWS::DynamoDB::Table
-      DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
           - AttributeName: id
